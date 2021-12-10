@@ -6,24 +6,18 @@
 #include <stdlib.h>
 #include "Player.h"
 #include <fstream>
+#include "Stranger.h"
+#include "Settings.h"
+#include "Location.h"
 
 using namespace std;
 int SetRundomColorOfRare(); // Прототип функции
 
-const int CL_BLACK_WHITE = 15;
-const int CL_BLACK_RED = 12;
-const int CL_YELLOW_BLACK = 96;
-const int CL_GREEN_WHITE = 39;
 
-const int CL_BLACK_BLU = 1;
-const int CL_BLACK_GREY = 8;
-const int CL_BLACK_GREEN = 2;
-const int CL_BLACK_PURP = 5;
-const int CL_BLACK_YELLOW = 6;
 // ______________________________________________MAIN _______________________
 int main()
 {
-
+    
     setlocale(LC_ALL, "Russian");
 
     srand(time(NULL));
@@ -31,54 +25,56 @@ int main()
     ShowMenu();
     int input;
     cin >> input;
-    while (input<0 && input > 3)
-    {
-        cout << "Ввведи адекватное число\n";
-        system("cls");
-        ShowMenu();
-        cin >> input;
-    }
-
+    float DS;
+    Settings MYSET;
     string gamename;
     bool isNewGame;
 
-    while (input != 3)
+    while(input < 4)
     {
-        switch (input)
+        if (input == 1)
         {
-        case 1:
             system("cls");
             cout << " введите Имя новой игры. В двльнейшем при входе нужно будет его заного указть\n";
             cin >> gamename;
             gamename += ".txt";
             isNewGame = true;
-            input = 3;
-            break;
-        case 2:
+            input = 4;
+        }
+        if (input == 2)
+        {
             system("cls");
             cout << " введите сохраненной игры\n";
             cin >> gamename;
             gamename += ".txt";
             isNewGame = false;
-            input = 3;
-            break;
-        default:
-            gamename = "";
-            break;
+            input = 4;
+        }
+        if (input == 3)
+        {
+            system("cls");
+            cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
+            cout << " от 0 до 10 секунд\n Введите \t";
+            cin >> DS;
+            MYSET.set_DialogSpeed(DS);
+            cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
+            system("cls");
+            ShowMenu();
+            cin >> input;
         }
     }
-
     /*
    ПЕременные которые получим из файла или 0 для новой игры
     */
     int curlvl;
     int curcoin;
     string nameofweapon;
-    int weapondamage;
-    int weaponcrit;
-    int critchanse;
+    float weapondamage;
+    float weaponcrit;
+    float critchanse;
     string curtype;
     string currare;
+    string curloc;
 
     if (!isNewGame) // Если есть ужесохранение
     {
@@ -93,6 +89,7 @@ int main()
         critchanse = 25.0;
         curtype = "тип";
         currare = "редкость";
+        curloc = "хз";
     }
     else // Если игра новая
     {
@@ -102,12 +99,19 @@ int main()
         weapondamage = 1.0;
         weaponcrit = 1.5;
         critchanse = 25.0;
-        curtype = "булава";
+        curtype = "дробящее";
         currare = "обычное";
+        curloc = "полянка";
     }
     Weapon Hands(nameofweapon, weapondamage, weaponcrit, critchanse, curtype, currare);
-    Player P(curlvl, curcoin, Hands);
-
+    Player P(curlvl, curcoin, Hands, curloc);
+    if (isNewGame)
+    {
+        P.loc_cave_isopen = false;
+        P.loc_desert_isopen = false;
+        P.loc_forest_isopen = false;
+        P.loc_mountain_isopen = false;
+    }
     
     if(isNewGame)
     {
@@ -116,12 +120,20 @@ int main()
         cin >> my_Name;
         P.set_name(my_Name);
     }
+
+
+
+
     system("cls");
-    cout << " твое имя " << P.get_name() << endl;
-    ShowActions(P.get_lvl());
+    Stranger Bandit("Бандит Инококентий", 0, 0, "ino.txt");
+    GoStory(Bandit, P.get_name(), P, MYSET);
+    system("cls");
+    ShowActions(P.get_location());
+    Location Field(0,1,2,0,0,50,25,25,0,0,"полянка", "","","","","");
+
     int c;
     cin >> c;
-    while (c!=5)
+    while (c!=0)
     {
         switch (c)
         {
@@ -135,30 +147,31 @@ int main()
                 cout << " / |  \n";
                 DescribeWeapon(P.get_weapon());
                 cout << "Твой уровень " << P.get_lvl() << endl;
+                cout << "Монет  " << P.get_coins() << endl;
                 system("pause");
             }
             break;
         case 2:
-            if (P.get_lvl() > 2)
+            if (P.get_lvl() > 1)
             {
-
+                system("cls");
+                printMap(P.get_location(), P);
+                system("pause");
             }
             break;
         case 3:
-            if (P.get_lvl() > 1)
-            {
-
-            }
-            break;
-        case 4:
             system("cls");
-            GoStory(P.get_lvl(),P.get_name(),P);
+            if (P.get_location() == "полянка")
+            {
+                lookUp(Field);
+            }
+            system("pause");
             break;
         default:
             break;
         }
         system("cls");
-        ShowActions(P.get_lvl());
+        ShowActions(P.get_location());
         cin >> c;
     }
 

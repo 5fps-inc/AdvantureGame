@@ -27,6 +27,15 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Stranger.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Location.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game_func.h">
@@ -38,18 +47,30 @@
     <ClInclude Include="Player.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Stranger.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Location.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="firs.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="StoryLvl1.txt">
+    <Text Include="ino.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
     <Text Include="StoryLvl2.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
     <Text Include="StoryLvl3.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="..\tilemap.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
