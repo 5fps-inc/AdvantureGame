@@ -1,13 +1,14 @@
 #include <iostream>
-#include "game_func.h"
 #include <stdlib.h>
 #include <Windows.h>
 #include <fstream>
 #include <string>
 #include <locale>
+#include "game_func.h"
 #include "Player.h"
 #include "Stranger.h"
 #include "Settings.h"
+
 
 using namespace std;
 using std::cout;
@@ -89,30 +90,18 @@ string RundomWeaponType()
 void DescribeWeapon(Weapon wep)
 {
     string tt;
-    string picture;
-    tt = wep.get_type();
-    if (tt == "дробящее")
-    {
-        picture = "----0";
-    }
-    if (tt == "меч")
-    {
-        picture = "-|---";
-    }
     tt = wep.get_rare();
     if (tt == "обычное")
     {
         SetConsoleTextAttribute(h, CL_BLACK_GREY);
         cout << "=============================================\n";
-        cout << picture;
     }
     if (tt == "редкое")
     {
         SetConsoleTextAttribute(h, CL_BLACK_BLU);
         cout << "=============================================\n";
-        cout << picture;
     }
-    cout << " |" << wep.get_name() << "|" << " Урон " << wep.get_damage() << " Крит " << wep.get_crit() << " Крит шанс " << wep.get_critchanse() << endl;
+    cout << " |" << wep.get_name() << "|" << "\nУрон: " << wep.get_damage() << "\nКрит: " << wep.get_crit() << "\nВремя между ударами: " << wep.get_cd() << endl;
     cout << "=============================================\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
@@ -164,19 +153,41 @@ void printMap(string location, Player &P)
             Sleep(1000);
             cout << "-----";
         }
-        cout << "\n Вы прибыли в пункт назначения)\n";
-    }
-    if (s == "village")
         s = "деревня";
-    else if (s == "tent")
+        cout << "\n Вы прибыли в пункт назначения) "<< s << endl;
+    }
+    if (s.compare("tent") == 0)
+    {
+        cout << "Это проверка на дебелизм разраба\n Система ожидания \n";
+        for (int i = 0; i < 5; i++)
+        {
+            Sleep(1000);
+            cout << "-----";
+        }
         s = "палатка";
+        cout << "\n Вы прибыли в пункт назначения) " << s << endl;
+    }
+    if (s.compare("field") == 0)
+    {
+        cout << "Это проверка на дебелизм разраба\n Система ожидания \n";
+        for (int i = 0; i < 5; i++)
+        {
+            Sleep(1000);
+            cout << "-----";
+        }
+        s = "полянка";
+        cout << "\n Вы прибыли в пункт назначения) " << s << endl;
+    }
     P.go_location(s);
 }
 
 void lookUp(Location LOC)
 {
     int num_input;
+    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
     cout << "\t" << LOC.get_location_name() << endl;
+    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+
     cout << "1 - Полутаться\n";
     for (int i = 0; i < 5; i++)
     {
@@ -189,7 +200,8 @@ void lookUp(Location LOC)
     cin >> num_input;
     if (num_input == 1)
     {
-        cout << "Фарм\n";
+        system("cls");
+        Looting(LOC);
     }
     else if ((num_input > 1) && (num_input < 7) && (LOC.get_Person_name_by_num(num_input) != ""))
     {
@@ -202,14 +214,80 @@ void lookUp(Location LOC)
 
 }
 
+void Looting(Location LOC)
+{
+    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
+    cout << "\t Локация: " << LOC.get_location_name() << endl;
+    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+    int difficult;
+    if (LOC.get_location_name() == "полянка") difficult = 40;
+
+    cout << "Сложность " << difficult << "% что ты встретишь врага" << endl;
+    cout << "1 - Пробовать\n";
+    cout << "0 - Не ну нафиг\n";
+    int in;
+    cin >> in;
+    while ((in < 0) && (in > 1)) cin >> in;
+    
+    while (in != 0)
+    {
+        SetConsoleTextAttribute(h, CL_BLACK_GREEN);
+        cout << "Лутаюсь . . .\n";
+        for (int i = 0; i < 10; i++)
+        {
+            cout << "-~-~-~";
+            Sleep(1000);
+        }
+        cout << "\n";
+        if (RundNum(1, 99) > difficult)
+        {
+            cout << "Ты нашел: ";
+            int rund_id = RundNum(1,99);
+            cout << "Проверка . Рандомное число: " << rund_id << endl;
+            int TEMP_rund = 0;
+            int i = 0;
+            while (!((TEMP_rund < rund_id) && (rund_id < LOC.get_arrch(i))))
+            {
+                TEMP_rund = LOC.get_arrch(i);
+                i++;
+                if (i > 10)
+                {
+                    break;
+                }
+            }
+            cout << "Выпал предмет: " << i << endl;
+        }
+        else
+        {
+            SetConsoleTextAttribute(h, CL_BLACK_RED);
+            cout << "Драка \n";
+            SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+        }
+        system("pause");
+        system("cls");
+        SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
+        cout << "\t Локация: " << LOC.get_location_name() << endl;
+        SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+        cout << "Сложность " << difficult << "%" << endl;
+        cout << "1 - еще раз\n";
+        cout << "0 - Не ну нафиг\n";
+        cin >> in;
+    }
+    
+}
+
+
 
 void ShowMenu()
 {
-    cout << "================ GAME 0.0.8 MENU ===================\n";
-    cout << "1 - Новая игра\n";
-    cout << "2 - Загрузить игру\n";
-    cout << "3 - Настройки\n";
-    cout << "4 - Выход\n";
+    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
+    cout << "\t================ GAME 0.0.10 MENU ===================\n";
+    cout << "\t1 - Новая игра\n";
+    cout << "\t2 - Загрузить игру\n";
+    cout << "\t3 - Настройки\n";
+    SetConsoleTextAttribute(h, CL_YELLOW_BLACK);
+    cout << "\t4 - Выход\n";
+    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
 
 

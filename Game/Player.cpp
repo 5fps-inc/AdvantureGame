@@ -30,6 +30,22 @@ string Player::get_name()
 	return name;
 }
 
+int Player::Inventory_Id_OF_slot(int id_slot)
+{
+	return Inventory[id_slot][0];
+}
+
+int Player::Inventory_Count_of_items(int id_slot)
+{
+	return Inventory[id_slot][1];
+}
+
+void Player::Inventory_set_Id_count(int id_slot, int id_item, int count)
+{
+	Inventory[id_slot][0] = id_item;
+	Inventory[id_slot][1] = count;
+}
+
 void Player::lvlup()
 {
 	lvl++;

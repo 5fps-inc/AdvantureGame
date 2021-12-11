@@ -12,6 +12,8 @@ private:
 	Weapon my_weapon;
 	int lvl;
 	string location;
+	int Inventory[10][2];
+
 public:
 	Player(int l, int c, Weapon wep, string loc);
 	int get_lvl();
@@ -23,7 +25,13 @@ public:
 	void set_name(string name);
 	string get_name();
 
-	
+	// ---------------- »Õ¬≈Õ“¿–‹ ---------
+
+	int Inventory_Id_OF_slot(int id_slot);
+	int Inventory_Count_of_items(int id_slot);
+	void Inventory_set_Id_count(int id_slot, int id_item, int count);
+
+	// -------------------------------------
 	
 	Weapon pickUpWeapon();
 	Weapon get_weapon();

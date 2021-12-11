@@ -5,36 +5,32 @@ using namespace std;
 class Weapon
 {
 public:
-	Weapon(string n, float d, float c, float ch, string t, string r)
+	Weapon(string n, float d, float c, int cd, string r)
 	{
 		name = n;
 		damage = d;
 		crit = c;
-		crit_chanse = ch;
-		type = t;
+		cooldown = cd;
 		rare = r;
 	}
 	Weapon()
 	{
 		name = "";
-		damage = 0;
-		crit = 0;
-		crit_chanse = 0;
-		type = "";
+		damage = 0.0;
+		crit = 0.0;
+		cooldown = 0;
 		rare = "";
 	}
 	string get_name();
 	float get_damage();
 	float get_crit();
-	float get_critchanse();
-	string get_type();
+	int get_cd();
 	string get_rare();
 private:
 	string name = "";
 	float damage = 0.0;
 	float crit = 0.0;
-	float crit_chanse = 0.0;
-	string type = "";
+	int cooldown = 0;
 	string rare = "";
 };
 #endif 

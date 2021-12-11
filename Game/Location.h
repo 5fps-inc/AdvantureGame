@@ -38,6 +38,8 @@ public:
 	}
 	string get_location_name();
 	string get_Person_name_by_num(int num);
+	int get_arr(int i);
+	int get_arrch(int i);
 };
 
 #endif // ! LOCATION_H

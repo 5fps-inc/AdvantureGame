@@ -18,14 +18,9 @@ float Weapon::get_crit()
 	return crit;
 }
 
-float Weapon::get_critchanse()
+int Weapon::get_cd()
 {
-	return crit_chanse;
-}
-
-string Weapon::get_type()
-{
-	return type;
+	return cooldown;
 }
 
 string Weapon::get_rare()

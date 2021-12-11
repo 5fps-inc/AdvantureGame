@@ -9,6 +9,7 @@
 #include "Stranger.h"
 #include "Settings.h"
 #include "Location.h"
+#include "Inventory.h"
 
 using namespace std;
 int SetRundomColorOfRare(); // Прототип функции
@@ -71,8 +72,7 @@ int main()
     string nameofweapon;
     float weapondamage;
     float weaponcrit;
-    float critchanse;
-    string curtype;
+    int coold;
     string currare;
     string curloc;
 
@@ -86,8 +86,7 @@ int main()
         nameofweapon = "Что-то";
         weapondamage = 10.0;
         weaponcrit = 1.5;
-        critchanse = 25.0;
-        curtype = "тип";
+        coold = 1;
         currare = "редкость";
         curloc = "хз";
     }
@@ -98,12 +97,11 @@ int main()
         nameofweapon = "Кулаки";
         weapondamage = 1.0;
         weaponcrit = 1.5;
-        critchanse = 25.0;
-        curtype = "дробящее";
+        coold = 1;
         currare = "обычное";
         curloc = "полянка";
     }
-    Weapon Hands(nameofweapon, weapondamage, weaponcrit, critchanse, curtype, currare);
+    Weapon Hands(nameofweapon, weapondamage, weaponcrit, coold, currare);
     Player P(curlvl, curcoin, Hands, curloc);
     if (isNewGame)
     {
@@ -119,6 +117,10 @@ int main()
         string my_Name;
         cin >> my_Name;
         P.set_name(my_Name);
+        for (int i = 0; i < 10; i++)
+        {
+            P.Inventory_set_Id_count(i,0,0);
+        }
     }
 
 
@@ -129,7 +131,7 @@ int main()
     GoStory(Bandit, P.get_name(), P, MYSET);
     system("cls");
     ShowActions(P.get_location());
-    Location Field(0,1,2,0,0,50,25,25,0,0,"полянка", "","","","","");
+    Location Field(0,1,2,0,0,50,75,100,0,0,"полянка", "","","","","");
 
     int c;
     cin >> c;
@@ -146,8 +148,9 @@ int main()
                 cout << "  ^    \n";
                 cout << " / |  \n";
                 DescribeWeapon(P.get_weapon());
-                cout << "Твой уровень " << P.get_lvl() << endl;
-                cout << "Монет  " << P.get_coins() << endl;
+                cout << "Уровень: " << P.get_lvl() << endl;
+                cout << "Монет:   " << P.get_coins() << endl;
+                ShowInventory(P);
                 system("pause");
             }
             break;

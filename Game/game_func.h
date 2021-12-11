@@ -29,6 +29,8 @@ void printMap(string location, Player &P);
 
 void lookUp(Location LOC);
 
+void Looting(Location LOC);
+
 
 #endif // !GAME_FUNC
 
