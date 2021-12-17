@@ -27,7 +27,7 @@ public:
 
 	// ---------------- »Õ¬≈Õ“¿–‹ ---------
 
-	int Inventory_Id_OF_slot(int id_slot);
+	int Inventory_Iditem_OF_slot(int id_slot);
 	int Inventory_Count_of_items(int id_slot);
 	void Inventory_set_Id_count(int id_slot, int id_item, int count);
 

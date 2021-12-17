@@ -23,14 +23,14 @@ string RundomWeaponType(); // Тип оружие рандом (Лук копье и тд)
 
 void DescribeWeapon(Weapon wep);
 
-string NameOfId(int i);
+int SetRundomColorOfRare(); // Прототип функции
 
 void printMap(string location, Player &P);
 
-void lookUp(Location LOC);
+void lookUp(Location LOC, Player &P);
 
-void Looting(Location LOC);
+void Looting(Location LOC, Player& P);
 
-
+void  Fiting(Location LOC, Player& P);
 #endif // !GAME_FUNC
 

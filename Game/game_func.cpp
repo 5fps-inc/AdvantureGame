@@ -4,15 +4,16 @@
 #include <fstream>
 #include <string>
 #include <locale>
+#include <iomanip>
+#include <wchar.h>
 #include "game_func.h"
 #include "Player.h"
 #include "Stranger.h"
 #include "Settings.h"
-
+#include "Inventory.h"
 
 using namespace std;
 using std::cout;
-
 
 const int CL_BLACK_WHITE = 15;
 const int CL_BLACK_RED = 12;
@@ -106,24 +107,11 @@ void DescribeWeapon(Weapon wep)
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
 
-string NameOfId(int i)
-{
-    switch (i)
-    {
-    case 0:
-        return "монета";
-        break;
-    default:
-        return "хз че за предмет";
-        break;
-    }
-}
-
 
 void printMap(string location, Player &P)
 {
     SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-    cout << "Локация: \t" << P.get_location() << endl;
+    cout << L"Локация: \t" << P.get_location() << endl;
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
     cout << "Идти\n";
     if (P.get_location() != "палатка") { cout << "\tК палатке: {tent}\n"; }
@@ -158,7 +146,7 @@ void printMap(string location, Player &P)
     }
     if (s.compare("tent") == 0)
     {
-        cout << "Это проверка на дебелизм разраба\n Система ожидания \n";
+        cout << "ИДУ \n";
         for (int i = 0; i < 5; i++)
         {
             Sleep(1000);
@@ -181,7 +169,7 @@ void printMap(string location, Player &P)
     P.go_location(s);
 }
 
-void lookUp(Location LOC)
+void lookUp(Location LOC, Player& P)
 {
     int num_input;
     SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
@@ -201,7 +189,7 @@ void lookUp(Location LOC)
     if (num_input == 1)
     {
         system("cls");
-        Looting(LOC);
+        Looting(LOC, P);
     }
     else if ((num_input > 1) && (num_input < 7) && (LOC.get_Person_name_by_num(num_input) != ""))
     {
@@ -214,13 +202,13 @@ void lookUp(Location LOC)
 
 }
 
-void Looting(Location LOC)
+void Looting(Location LOC, Player& P)
 {
     SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
     cout << "\t Локация: " << LOC.get_location_name() << endl;
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
     int difficult;
-    if (LOC.get_location_name() == "полянка") difficult = 40;
+    if (LOC.get_location_name() == "полянка") difficult = 50;
 
     cout << "Сложность " << difficult << "% что ты встретишь врага" << endl;
     cout << "1 - Пробовать\n";
@@ -236,9 +224,10 @@ void Looting(Location LOC)
         for (int i = 0; i < 10; i++)
         {
             cout << "-~-~-~";
-            Sleep(1000);
+            Sleep(100);
         }
         cout << "\n";
+        SetConsoleTextAttribute(h, CL_BLACK_WHITE);
         if (RundNum(1, 99) > difficult)
         {
             cout << "Ты нашел: ";
@@ -255,13 +244,29 @@ void Looting(Location LOC)
                     break;
                 }
             }
-            cout << "Выпал предмет: " << i << endl;
+            cout << "Значит выпало id_item: " << LOC.get_arr(i) << endl;
+            int id_item = LOC.get_arr(i);
+            if (Find_slotId_by_iditem(P, id_item) != -1)
+            {
+                cout << "Такой предмет в инвентаре есть +1 \n";
+                P.Inventory_set_Id_count(Find_slotId_by_iditem(P, id_item), id_item,P.Inventory_Count_of_items(Find_slotId_by_iditem(P, id_item)) + 1);
+            }
+            else
+            {
+                cout << "Такого предмета в инвентаре нету \n";
+                if (Find_slotId_by_iditem(P, 0) != -1)
+                {
+                    cout << "Пустой есть\n";
+                    P.Inventory_set_Id_count(Find_slotId_by_iditem(P, 0), id_item, 1);
+                }
+            }
         }
         else
         {
             SetConsoleTextAttribute(h, CL_BLACK_RED);
             cout << "Драка \n";
             SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+            Fiting(LOC,P);
         }
         system("pause");
         system("cls");
@@ -274,6 +279,146 @@ void Looting(Location LOC)
         cin >> in;
     }
     
+}
+
+void Fiting(Location LOC, Player& P)
+{
+    string s1;
+    string s2;
+    string s3;
+    string s4;
+    string Enemy_name;
+    float my_Hp = 50.0;
+    int my_CD = P.get_weapon().get_cd();
+    int my_cur_cd = my_CD;
+    float en_Hp;
+    int en_CD;
+    int en_cur_cd;
+    float en_DM;
+    
+    if (LOC.get_location_name() == "полянка")
+    {
+        if (RundNum(1, 3) < 3)
+        {
+            //Типо 1 или 2 то ЭТО кролик
+            s1 = " (/__ / ) ";
+            s2 = "(= '.' = )";
+            s3 = "  (')_(') ";
+            s4 = "  (')_(') ";
+            Enemy_name = "Заяц";
+            en_Hp = 10.0;
+            en_CD = 1;
+            en_cur_cd = 1;
+            en_DM = 1.0;
+        }
+        else
+        {
+            // Типо медведь
+            s1 = "` (').(')  ";
+            s2 = "` (  ' o ')  ";
+            s3 = " (' )_( ') ";
+            s4 = "(,,)---(,,)";
+            Enemy_name = "Медведь";
+            en_Hp = 50.0;
+            en_CD = 3;
+            en_cur_cd = 3;
+            en_DM = 20.0;
+        }
+    }
+    
+
+    system("cls");
+    cout << "  0      " << s1 << endl;
+    cout << " /|?     " << s2 << endl;
+    cout << "  ^      " << s3 << endl;
+    cout << " / |     " << s4 << endl;
+    SetConsoleTextAttribute(h, CL_BLACK_GREEN);
+    cout << "HP:" << setw(5) << my_Hp;
+    SetConsoleTextAttribute(h, CL_BLACK_RED);
+    cout << Enemy_name << " HP:" <<  setw(5) << en_Hp << endl;
+    SetConsoleTextAttribute(h, CL_BLACK_GREEN);
+    cout << "CD:" << setw(5) << my_cur_cd;
+    SetConsoleTextAttribute(h, CL_BLACK_RED);
+    cout << Enemy_name << " CD:" << setw(5) << en_cur_cd << endl;
+    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+
+    cout << "1 - Драться\n";
+    cout << "0 - Убежать\n";
+    int input;
+    cin >> input;
+    while ((input > 1) && (input < 0))
+    {
+        cin >> input;
+    }
+    while (input != 0)
+    {
+        if ((my_Hp > 0) && (en_Hp > 0))
+        {
+            system("cls");
+            my_cur_cd--;
+            en_cur_cd--;
+            cout << "  0      " << s1 << endl;
+            cout << " /|?     " << s2 << endl;
+            cout << "  ^      " << s3 << endl;
+            cout << " / |     " << s4 << endl;
+            cout << "HP:" << setw(5) << my_Hp;
+            cout << Enemy_name << " HP:" << setw(5) << en_Hp << endl;
+            cout << "CD:" << setw(5) << my_cur_cd;
+            cout << Enemy_name << " CD:" << setw(5) << en_cur_cd << endl;
+            Sleep(100);
+
+            if (my_cur_cd == 0)
+            {
+                if (RundNum(1,4) < 2)
+                {
+                    en_Hp -= P.get_weapon().get_crit() * P.get_weapon().get_damage();
+                    my_cur_cd = my_CD;
+                }
+                else
+                {
+                    en_Hp -= P.get_weapon().get_damage();
+                    my_cur_cd = my_CD;
+                }
+                
+            }
+            if (en_cur_cd == 0)
+            {
+                my_Hp -= en_DM;
+                en_cur_cd = en_CD;
+            }
+            system("cls");
+            cout << "  0      " << s1 << endl;
+            cout << " /|?     " << s2 << endl;
+            cout << "  ^      " << s3 << endl;
+            cout << " / |     " << s4 << endl;
+            SetConsoleTextAttribute(h, CL_BLACK_GREEN);
+            cout << "HP:" << setw(5) << my_Hp;
+            SetConsoleTextAttribute(h, CL_BLACK_RED);
+            cout << Enemy_name << " HP:" << setw(5) << en_Hp << endl;
+            SetConsoleTextAttribute(h, CL_BLACK_GREEN);
+            cout << "CD:" << setw(5) << my_cur_cd;
+            SetConsoleTextAttribute(h, CL_BLACK_RED);
+            cout << Enemy_name << " CD:" << setw(5) << en_cur_cd << endl;
+            SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+
+            cout << "1 - Следующий шаг\n";
+            cout << "0 - Убежать\n";
+            cin >> input;
+        }
+        else
+        {
+            if (my_Hp > 0)
+            {
+                cout << "ТЫ победил\n";
+
+            }
+            else
+            {
+                cout << "ПРОИГРАл\n";
+            }
+            input = 0;
+        }
+    }
 }
 
 

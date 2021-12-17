@@ -30,7 +30,7 @@ string Player::get_name()
 	return name;
 }
 
-int Player::Inventory_Id_OF_slot(int id_slot)
+int Player::Inventory_Iditem_OF_slot(int id_slot)
 {
 	return Inventory[id_slot][0];
 }

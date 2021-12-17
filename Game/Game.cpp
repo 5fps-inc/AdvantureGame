@@ -12,132 +12,141 @@
 #include "Inventory.h"
 
 using namespace std;
-int SetRundomColorOfRare(); // Прототип функции
+
 
 
 // ______________________________________________MAIN _______________________
 int main()
 {
-    
-    setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "");
 
     srand(time(NULL));
 
-    ShowMenu();
-    int input;
-    cin >> input;
-    float DS;
-    Settings MYSET;
-    string gamename;
+    SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
+    SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
+
+    int LoadedLvl;
+    int LoadedCoins;
+    string LoadedNameWeapon;
+    float LoadedWeaponDamage;
+    float LoadedWeaponCrit;
+    int LoadedWeaponCoolDown;
+    string LoadedWeaponRare;
+    string LoadedLocation;
+
+    int ButtonPressed;
+    
+
     bool isNewGame;
 
-    while(input < 4)
+    ShowMenu();
+    
+    cin >> ButtonPressed;
+    
+    Settings MYSET;
+    string gamename;
+    
+
+    while(ButtonPressed < 4)
     {
-        if (input == 1)
+        if (ButtonPressed == 1)
         {
+            //Новая игра
             system("cls");
-            cout << " введите Имя новой игры. В двльнейшем при входе нужно будет его заного указть\n";
+            cout << "\t Слот сокранения: \n";
             cin >> gamename;
             gamename += ".txt";
             isNewGame = true;
-            input = 4;
+            ButtonPressed = 4;
         }
-        if (input == 2)
+        if (ButtonPressed == 2)
         {
+            //Pfuhepbnm buhe
             system("cls");
-            cout << " введите сохраненной игры\n";
+            cout << " введите название Слота\n";
             cin >> gamename;
             gamename += ".txt";
             isNewGame = false;
-            input = 4;
+            ButtonPressed = 4;
         }
-        if (input == 3)
+        if (ButtonPressed == 3)
         {
+            //Настройки
+            float DialogSpeed;
             system("cls");
             cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
             cout << " от 0 до 10 секунд\n Введите \t";
-            cin >> DS;
-            MYSET.set_DialogSpeed(DS);
+            cin >> DialogSpeed;
+            MYSET.set_DialogSpeed(DialogSpeed);
             cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
             system("cls");
             ShowMenu();
-            cin >> input;
+            cin >> ButtonPressed;
         }
     }
-    /*
-   ПЕременные которые получим из файла или 0 для новой игры
-    */
-    int curlvl;
-    int curcoin;
-    string nameofweapon;
-    float weapondamage;
-    float weaponcrit;
-    int coold;
-    string currare;
-    string curloc;
+    
 
-    if (!isNewGame) // Если есть ужесохранение
+    if (!isNewGame) // Загружаем
     {
         ifstream in;
         in.open(gamename);
-        in >> curlvl;
+        in >> LoadedLvl;
         in.close();
-        curcoin = 100;
-        nameofweapon = "Что-то";
-        weapondamage = 10.0;
-        weaponcrit = 1.5;
-        coold = 1;
-        currare = "редкость";
-        curloc = "хз";
+        LoadedCoins = 100;
+        LoadedNameWeapon = "";
+        LoadedWeaponDamage = 10.0;
+        LoadedWeaponCrit = 5.0;
+        LoadedWeaponCoolDown = 1;
+        LoadedWeaponRare = "";
+        LoadedLocation = "";
     }
     else // Если игра новая
     {
-        curlvl = 1;
-        curcoin = 0;
-        nameofweapon = "Кулаки";
-        weapondamage = 1.0;
-        weaponcrit = 1.5;
-        coold = 1;
-        currare = "обычное";
-        curloc = "полянка";
+        LoadedLvl = 1;
+        LoadedCoins = 0;
+        LoadedNameWeapon = "Кулаки";
+        LoadedWeaponDamage = 1.0;
+        LoadedWeaponCrit = 2.1;
+        LoadedWeaponCoolDown = 1;
+        LoadedWeaponRare = "обычное";
+        LoadedLocation = "полянка";
     }
-    Weapon Hands(nameofweapon, weapondamage, weaponcrit, coold, currare);
-    Player P(curlvl, curcoin, Hands, curloc);
+
+    Weapon Hands(LoadedNameWeapon, LoadedWeaponDamage, LoadedWeaponCrit, LoadedWeaponCoolDown, LoadedWeaponRare);
+    Player P(LoadedLvl, LoadedCoins, Hands, LoadedLocation);
+
     if (isNewGame)
     {
         P.loc_cave_isopen = false;
         P.loc_desert_isopen = false;
         P.loc_forest_isopen = false;
         P.loc_mountain_isopen = false;
-    }
-    
-    if(isNewGame)
-    {
         cout << "Введите свое имя !!! на английском !!! а то будеьш без имени сидеть\n";
         string my_Name;
         cin >> my_Name;
         P.set_name(my_Name);
         for (int i = 0; i < 10; i++)
         {
-            P.Inventory_set_Id_count(i,0,0);
+            P.Inventory_set_Id_count(i, 0, 0);
         }
     }
 
 
-
-
     system("cls");
     Stranger Bandit("Бандит Инококентий", 0, 0, "ino.txt");
-    GoStory(Bandit, P.get_name(), P, MYSET);
-    system("cls");
-    ShowActions(P.get_location());
-    Location Field(0,1,2,0,0,50,75,100,0,0,"полянка", "","","","","");
+    Location Field(3, 5, 7, 0, 0, 50, 75, 100, 0, 0, "полянка", "", "", "", "", "");
 
-    int c;
-    cin >> c;
-    while (c!=0)
+    GoStory(Bandit, P.get_name(), P, MYSET); // игра начилась стартовый диалог
+    system("cls");
+
+    ShowActions(P.get_location());
+    
+
+    int InputForAction;
+    cin >> InputForAction;
+    while (InputForAction !=0)
     {
-        switch (c)
+        switch (InputForAction)
         {
         case 1:
             if (P.get_lvl() > 1)
@@ -166,7 +175,7 @@ int main()
             system("cls");
             if (P.get_location() == "полянка")
             {
-                lookUp(Field);
+                lookUp(Field, P);
             }
             system("pause");
             break;
@@ -175,7 +184,7 @@ int main()
         }
         system("cls");
         ShowActions(P.get_location());
-        cin >> c;
+        cin >> InputForAction;
     }
 
     return 0;

@@ -3,31 +3,51 @@
 
 using namespace std;
 
-void ShowInventory(Player P)
+void ShowInventory(Player& P)
 {
     cout << "\t INVENTORY \n";
     cout << "_______________________________________________________\n";
-    int emptySlots = 0;
     for (int i = 0; i < 10; i++)
     {
-        if (P.Inventory_Id_OF_slot(i) == 0)
+        cout << NameOfId(P.Inventory_Iditem_OF_slot(i));
+        if (P.Inventory_Count_of_items(i) > 0)
         {
-            cout << "";
-            emptySlots += 1;
-        }
-        else
-        {
-            if (P.Inventory_Id_OF_slot(i) == 1)
-            {
-                cout << "ÏÀËÊÀ" << "(" << P.Inventory_Count_of_items(i) << ")";
-            }
-        }
+            cout << " " << P.Inventory_Count_of_items(i);
+        }       
         cout << "\n";
-    }
-    if (emptySlots == 10)
-    {
-        cout << "          ÂÅÑÜ ÈÍÂÅÍÒÀÐÜ ÏÓÑÒÎÉ\n";
     }
     cout << "_______________________________________________________\n";
     cout << "\n";
+}
+
+int Find_slotId_by_iditem(Player P, int item_id)
+{
+    int cur_slot = -1;
+    for (int i = 0; i < 10; i++)
+    {
+        if (P.Inventory_Iditem_OF_slot(i) == item_id)
+        {
+            cur_slot = i;
+        }
+    }
+    return cur_slot;
+}
+
+string NameOfId(int i)
+{
+    switch (i)
+    {
+    case 0:
+        return "";
+        break;
+    case 1:
+        return "ïàëêà";
+        break;
+    case 2:
+        return "òðàâà";
+        break;
+    default:
+        return "õç ÷å çà ïðåäìåò";
+        break;
+    }
 }
