@@ -53,9 +53,6 @@ int main()
         {
             //Новая игра
             system("cls");
-            cout << "\t Слот сокранения: \n";
-            cin >> gamename;
-            gamename += ".txt";
             isNewGame = true;
             ButtonPressed = 4;
         }
@@ -63,22 +60,13 @@ int main()
         {
             //Pfuhepbnm buhe
             system("cls");
-            cout << " введите название Слота\n";
-            cin >> gamename;
-            gamename += ".txt";
             isNewGame = false;
             ButtonPressed = 4;
         }
         if (ButtonPressed == 3)
         {
             //Настройки
-            float DialogSpeed;
-            system("cls");
-            cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
-            cout << " от 0 до 10 секунд\n Введите \t";
-            cin >> DialogSpeed;
-            MYSET.set_DialogSpeed(DialogSpeed);
-            cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
+            ShowSettings(MYSET);
             system("cls");
             ShowMenu();
             cin >> ButtonPressed;
@@ -88,10 +76,6 @@ int main()
 
     if (!isNewGame) // Загружаем
     {
-        ifstream in;
-        in.open(gamename);
-        in >> LoadedLvl;
-        in.close();
         LoadedCoins = 100;
         LoadedNameWeapon = "";
         LoadedWeaponDamage = 10.0;
@@ -121,7 +105,7 @@ int main()
         P.loc_desert_isopen = false;
         P.loc_forest_isopen = false;
         P.loc_mountain_isopen = false;
-        cout << "Введите свое имя !!! на английском !!! а то будеьш без имени сидеть\n";
+        cout << "Моё имя: \n";
         string my_Name;
         cin >> my_Name;
         P.set_name(my_Name);
@@ -134,18 +118,16 @@ int main()
 
     system("cls");
     Stranger Bandit("Бандит Инококентий", 0, 0, "ino.txt");
-    Location Field(3, 5, 7, 0, 0, 50, 75, 100, 0, 0, "полянка", "", "", "", "", "");
+    Location Field(0, 1, 2, 6, 0, 40, 70, 90, 100, 0, "полянка", "", "", "", "", "");
 
     GoStory(Bandit, P.get_name(), P, MYSET); // игра начилась стартовый диалог
     system("cls");
 
     ShowActions(P.get_location());
-    
-
-    int InputForAction;
-    cin >> InputForAction;
+    int InputForAction = 1;
     while (InputForAction !=0)
     {
+        cin >> InputForAction;
         switch (InputForAction)
         {
         case 1:
@@ -168,23 +150,35 @@ int main()
             {
                 system("cls");
                 printMap(P.get_location(), P);
-                system("pause");
             }
             break;
         case 3:
             system("cls");
-            if (P.get_location() == "полянка")
+            if (P.get_location() == "полянка") lookUp(Field, P);
+            Sleep(1500);
+            break;
+        case 0:
+            ShowMenu(isNewGame);
+            cin >> InputForAction;
+            if (InputForAction == 2)
             {
-                lookUp(Field, P);
+                ShowSettings(MYSET);
             }
-            system("pause");
             break;
         default:
             break;
         }
         system("cls");
         ShowActions(P.get_location());
-        cin >> InputForAction;
+    }
+    system("cls");
+    cout << "Перед тем как выйти. Сохраним игру\n 1 - Да\n 2 - нет\n";
+    int in;
+    cin >> in;
+    if (in == 1)
+    {
+        cout << "слот сохранения: \n";
+        cin >> gamename;
     }
 
     return 0;

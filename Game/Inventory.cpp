@@ -5,12 +5,12 @@ using namespace std;
 
 void ShowInventory(Player& P)
 {
-    cout << "\t INVENTORY \n";
+    cout << "\t ИНВЕНТАРЬ \n";
     cout << "_______________________________________________________\n";
     for (int i = 0; i < 10; i++)
     {
         cout << NameOfId(P.Inventory_Iditem_OF_slot(i));
-        if (P.Inventory_Count_of_items(i) > 0)
+        if (P.Inventory_Count_of_items(i) > 1)
         {
             cout << " " << P.Inventory_Count_of_items(i);
         }       
@@ -35,19 +35,14 @@ int Find_slotId_by_iditem(Player P, int item_id)
 
 string NameOfId(int i)
 {
-    switch (i)
-    {
-    case 0:
-        return "";
-        break;
-    case 1:
-        return "палка";
-        break;
-    case 2:
-        return "трава";
-        break;
-    default:
-        return "хз че за предмет";
-        break;
-    }
+
+    if (i == 0) return "";
+    if (i == 1) return "палка";
+    if (i == 2) return "листик";
+    if (i == 3) return "лапа зайца";
+    if (i == 4) return "Шерсть мишки";
+    if (i == 5) return "Коготь мишки";
+    if (i == 6) return "Ягода";
+    if (i == 7) return "Мясо зайца";
+    if (i == 8) return "Мясо мишки";
 }

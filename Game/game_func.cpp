@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <stdlib.h>
 #include <Windows.h>
 #include <fstream>
@@ -92,99 +92,72 @@ void DescribeWeapon(Weapon wep)
 {
     string tt;
     tt = wep.get_rare();
-    if (tt == "обычное")
+    if (tt == "РѕР±С‹С‡РЅРѕРµ")
     {
         SetConsoleTextAttribute(h, CL_BLACK_GREY);
         cout << "=============================================\n";
     }
-    if (tt == "редкое")
+    if (tt == "СЂРµРґРєРѕРµ")
     {
         SetConsoleTextAttribute(h, CL_BLACK_BLU);
         cout << "=============================================\n";
     }
-    cout << " |" << wep.get_name() << "|" << "\nУрон: " << wep.get_damage() << "\nКрит: " << wep.get_crit() << "\nВремя между ударами: " << wep.get_cd() << endl;
+    cout << " |" << wep.get_name() << "|" << "\nРЈСЂРѕРЅ: " << wep.get_damage() << "\nРљСЂРёС‚: " << wep.get_crit() << "\nР’СЂРµРјСЏ РјРµР¶РґСѓ СѓРґР°СЂР°РјРё: " << wep.get_cd() << endl;
     cout << "=============================================\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
 
-
 void printMap(string location, Player &P)
 {
     SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-    cout << L"Локация: \t" << P.get_location() << endl;
+    cout << "Р›РѕРєР°С†РёСЏ: \t" << P.get_location() << endl;
+    cout << "\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-    cout << "Идти\n";
-    if (P.get_location() != "палатка") { cout << "\tК палатке: {tent}\n"; }
-    if (P.get_location() != "деревня") { cout << "\tВ деревню: {village}\n"; }
-    if (P.get_location() != "полянка") { cout << "\tНа полянку: {field}\n"; }
-    if ((P.get_location() != "пустыня") && (P.loc_desert_isopen))
+    // Р’С‹С‹РѕРґ РІР°СЂРёР°РЅС‚РѕРІ
+    cout << "РРґС‚Рё\n";
+    cout << "РћСЃС‚Р°С‚СЊСЃСЏ С‚СѓС‚: {РЅРµС‚}\n\n";
+    if (P.get_location() != "РїР°Р»Р°С‚РєР°") { cout << "\tРљ РїР°Р»Р°С‚РєРµ: {РїР°Р»Р°С‚РєР°}\n\n"; }
+    if (P.get_location() != "РґРµСЂРµРІРЅСЏ") { cout << "\tР’ РґРµСЂРµРІРЅСЋ: {РґРµСЂРµРІРЅСЏ}\n\n"; }
+    if (P.get_location() != "РїРѕР»СЏРЅРєР°") { cout << "\tРќР° РїРѕР»СЏРЅРєСѓ: {РїРѕР»СЏРЅРєР°}\n\n"; }
+    if ((P.get_location() != "РїСѓСЃС‚С‹РЅСЏ") && (P.loc_desert_isopen))
     {
-        cout << "\tВ пустыню: {desert}\n";
+        cout << "\tР’ РїСѓСЃС‚С‹РЅСЋ: {РїСѓСЃС‚С‹РЅСЏ}\n\n";
     }
-    if ((P.get_location() != "Гора") && (P.loc_mountain_isopen))
+    if ((P.get_location() != "Р“РѕСЂР°") && (P.loc_mountain_isopen))
     {
-        cout << "\tВ горы: {mountain}\n";
+        cout << "\tР’ РіРѕСЂС‹: {РіРѕСЂР°}\n\n";
     }
+    // РІРІРѕРґ РјРµСЃС‚Р° РєСѓРґР° РёРґРµРј
     string s;
     cin >> s;
-    while (!((s.compare("tent") == 0) || (s.compare("village") == 0) || (s.compare("field") == 0) || (s.compare("desert") == 0) || (s.compare("mountain") == 0)))
-    {
-        cout << "Введи значение из {} \n";
-        cin >> s;
-    }
     cout << "\n";
-    if (s.compare("village") == 0)
+    if ((s.compare("РїР°Р»Р°С‚РєР°") == 0) || (s.compare("РґРµСЂРµРІРЅСЏ") == 0) || (s.compare("РїРѕР»СЏРЅРєР°") == 0) || ((s.compare("РїСѓСЃС‚С‹РЅСЏ") == 0) && (P.loc_desert_isopen)) || ((s.compare("РіРѕСЂР°") == 0) && (P.loc_mountain_isopen)))
     {
-        cout << "Это проверка на дебелизм разраба\n Система ожидания \n";
-        for (int i = 0; i < 5; i++)
-        {
-            Sleep(1000);
-            cout << "-----";
-        }
-        s = "деревня";
-        cout << "\n Вы прибыли в пункт назначения) "<< s << endl;
-    }
-    if (s.compare("tent") == 0)
-    {
-        cout << "ИДУ \n";
-        for (int i = 0; i < 5; i++)
-        {
-            Sleep(1000);
-            cout << "-----";
-        }
-        s = "палатка";
-        cout << "\n Вы прибыли в пункт назначения) " << s << endl;
-    }
-    if (s.compare("field") == 0)
-    {
-        cout << "Это проверка на дебелизм разраба\n Система ожидания \n";
-        for (int i = 0; i < 5; i++)
-        {
-            Sleep(1000);
-            cout << "-----";
-        }
-        s = "полянка";
-        cout << "\n Вы прибыли в пункт назначения) " << s << endl;
+        Waiting(5, 't', 100);
+        cout << "Р’С‹ РїСЂРёР±С‹Р»Рё -> " << s << endl;
     }
     P.go_location(s);
+    Sleep(1500);
 }
 
 void lookUp(Location LOC, Player& P)
 {
     int num_input;
     SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t" << LOC.get_location_name() << endl;
+    cout << "\tР›РѕРєР°С†РёСЏ: " << LOC.get_location_name() << endl;
+    cout << "\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 
-    cout << "1 - Полутаться\n";
+    cout << "1 - РџРѕР»СѓС‚Р°С‚СЊСЃСЏ\n\n";
     for (int i = 0; i < 5; i++)
     {
         if (LOC.get_Person_name_by_num(i) != "")
         {
-            cout << 2 + i << " - Поговорить с " << LOC.get_Person_name_by_num(i) << endl;
+            cout << 2 + i << " - РџРѕРіРѕРІРѕСЂРёС‚СЊ СЃ " << LOC.get_Person_name_by_num(i) << endl;
+            cout << "\n";
         }
     }
-    cout << "0 - Уйти\n";
+    cout << "0 - РЈР№С‚Рё\n";
     cin >> num_input;
     if (num_input == 1)
     {
@@ -193,46 +166,39 @@ void lookUp(Location LOC, Player& P)
     }
     else if ((num_input > 1) && (num_input < 7) && (LOC.get_Person_name_by_num(num_input) != ""))
     {
-        cout << "Функция типо поговорить с челом\n";
+        cout << "Р¤СѓРЅРєС†РёСЏ С‚РёРїРѕ РїРѕРіРѕРІРѕСЂРёС‚СЊ СЃ С‡РµР»РѕРј\n";
     }
     else if (num_input > 7)
     {
-        cout << "Сорян ты ввел что-то не так пожтому попробуй позже и по другому\n";
+        cout << "РЎРѕСЂСЏРЅ С‚С‹ РІРІРµР» С‡С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє РїРѕР¶С‚РѕРјСѓ РїРѕРїСЂРѕР±СѓР№ РїРѕР·Р¶Рµ Рё РїРѕ РґСЂСѓРіРѕРјСѓ\n";
     }
-
 }
 
 void Looting(Location LOC, Player& P)
 {
     SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t Локация: " << LOC.get_location_name() << endl;
+    cout << "\t Р›РѕРєР°С†РёСЏ: " << LOC.get_location_name() << endl;
+    cout << "\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
     int difficult;
-    if (LOC.get_location_name() == "полянка") difficult = 50;
+    if (LOC.get_location_name() == "РїРѕР»СЏРЅРєР°") difficult = 20;
 
-    cout << "Сложность " << difficult << "% что ты встретишь врага" << endl;
-    cout << "1 - Пробовать\n";
-    cout << "0 - Не ну нафиг\n";
+    cout << "РЎР»РѕР¶РЅРѕСЃС‚СЊ " << difficult << "% С‡С‚Рѕ С‚С‹ РІСЃС‚СЂРµС‚РёС€СЊ РІСЂР°РіР°" << endl;
+    cout << "\n";
+    cout << "1 - РџСЂРѕР±РѕРІР°С‚СЊ\n\n";
+    cout << "0 - РќРµ РЅСѓ РЅР°С„РёРі\n\n";
     int in;
     cin >> in;
     while ((in < 0) && (in > 1)) cin >> in;
     
     while (in != 0)
     {
-        SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-        cout << "Лутаюсь . . .\n";
-        for (int i = 0; i < 10; i++)
-        {
-            cout << "-~-~-~";
-            Sleep(100);
-        }
-        cout << "\n";
-        SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+        Waiting(10, 'l', 100);
         if (RundNum(1, 99) > difficult)
         {
-            cout << "Ты нашел: ";
+            cout << "РўС‹ РЅР°С€РµР»: ";
             int rund_id = RundNum(1,99);
-            cout << "Проверка . Рандомное число: " << rund_id << endl;
+            cout << "РџСЂРѕРІРµСЂРєР° . Р Р°РЅРґРѕРјРЅРѕРµ С‡РёСЃР»Рѕ: " << rund_id << endl;
             int TEMP_rund = 0;
             int i = 0;
             while (!((TEMP_rund < rund_id) && (rund_id < LOC.get_arrch(i))))
@@ -244,38 +210,45 @@ void Looting(Location LOC, Player& P)
                     break;
                 }
             }
-            cout << "Значит выпало id_item: " << LOC.get_arr(i) << endl;
+            cout << "Р—РЅР°С‡РёС‚ РІС‹РїР°Р»Рѕ: " << NameOfId(LOC.get_arr(i)) << endl;
             int id_item = LOC.get_arr(i);
-            if (Find_slotId_by_iditem(P, id_item) != -1)
+            if ((Find_slotId_by_iditem(P, id_item) != -1) && (id_item != 0))
             {
-                cout << "Такой предмет в инвентаре есть +1 \n";
+                cout << "РўР°РєРѕР№ РїСЂРµРґРјРµС‚ РІ РёРЅРІРµРЅС‚Р°СЂРµ РµСЃС‚СЊ +1 \n";
                 P.Inventory_set_Id_count(Find_slotId_by_iditem(P, id_item), id_item,P.Inventory_Count_of_items(Find_slotId_by_iditem(P, id_item)) + 1);
             }
             else
             {
-                cout << "Такого предмета в инвентаре нету \n";
-                if (Find_slotId_by_iditem(P, 0) != -1)
+                if (rund_id != 0)
                 {
-                    cout << "Пустой есть\n";
-                    P.Inventory_set_Id_count(Find_slotId_by_iditem(P, 0), id_item, 1);
+                    cout << "РўР°РєРѕРіРѕ РїСЂРµРґРјРµС‚Р° РІ РёРЅРІРµРЅС‚Р°СЂРµ РЅРµС‚Сѓ \n";
+                    if (Find_slotId_by_iditem(P, 0) != -1)
+                    {
+                        cout << "РЅР°Р№РґРµРЅ РџСѓСЃС‚РѕР№ СЃР»РѕС‚ Рё РІ  РЅРµРіРѕ РїРѕР»РѕР¶РёР»Рё\n";
+                        P.Inventory_set_Id_count(Find_slotId_by_iditem(P, 0), id_item, 1);
+                    }
+                }
+                else
+                {
+                    cout << "\n";
                 }
             }
         }
         else
         {
             SetConsoleTextAttribute(h, CL_BLACK_RED);
-            cout << "Драка \n";
+            cout << "Р”СЂР°РєР° \n";
             SetConsoleTextAttribute(h, CL_BLACK_WHITE);
             Fiting(LOC,P);
         }
         system("pause");
         system("cls");
         SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-        cout << "\t Локация: " << LOC.get_location_name() << endl;
+        cout << "\t Р›РѕРєР°С†РёСЏ: " << LOC.get_location_name() << endl;
         SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-        cout << "Сложность " << difficult << "%" << endl;
-        cout << "1 - еще раз\n";
-        cout << "0 - Не ну нафиг\n";
+        cout << "РЎР»РѕР¶РЅРѕСЃС‚СЊ " << difficult << "%" << endl;
+        cout << "1 - РµС‰Рµ СЂР°Р·\n";
+        cout << "0 - РќРµ РЅСѓ РЅР°С„РёРі\n";
         cin >> in;
     }
     
@@ -296,16 +269,16 @@ void Fiting(Location LOC, Player& P)
     int en_cur_cd;
     float en_DM;
     
-    if (LOC.get_location_name() == "полянка")
+    if (LOC.get_location_name() == "РїРѕР»СЏРЅРєР°")
     {
         if (RundNum(1, 3) < 3)
         {
-            //Типо 1 или 2 то ЭТО кролик
+            //РўРёРїРѕ 1 РёР»Рё 2 С‚Рѕ Р­РўРћ РєСЂРѕР»РёРє
             s1 = " (/__ / ) ";
             s2 = "(= '.' = )";
             s3 = "  (')_(') ";
             s4 = "  (')_(') ";
-            Enemy_name = "Заяц";
+            Enemy_name = "Р—Р°СЏС†";
             en_Hp = 10.0;
             en_CD = 1;
             en_cur_cd = 1;
@@ -313,12 +286,12 @@ void Fiting(Location LOC, Player& P)
         }
         else
         {
-            // Типо медведь
+            // РўРёРїРѕ РјРµРґРІРµРґСЊ
             s1 = "` (').(')  ";
             s2 = "` (  ' o ')  ";
             s3 = " (' )_( ') ";
             s4 = "(,,)---(,,)";
-            Enemy_name = "Медведь";
+            Enemy_name = "РњРµРґРІРµРґСЊ";
             en_Hp = 50.0;
             en_CD = 3;
             en_cur_cd = 3;
@@ -342,8 +315,8 @@ void Fiting(Location LOC, Player& P)
     cout << Enemy_name << " CD:" << setw(5) << en_cur_cd << endl;
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 
-    cout << "1 - Драться\n";
-    cout << "0 - Убежать\n";
+    cout << "1 - Р”СЂР°С‚СЊСЃСЏ\n";
+    cout << "0 - РЈР±РµР¶Р°С‚СЊ\n";
     int input;
     cin >> input;
     while ((input > 1) && (input < 0))
@@ -401,24 +374,66 @@ void Fiting(Location LOC, Player& P)
             cout << Enemy_name << " CD:" << setw(5) << en_cur_cd << endl;
             SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 
-            cout << "1 - Следующий шаг\n";
-            cout << "0 - Убежать\n";
+            cout << "1 - РЎР»РµРґСѓСЋС‰РёР№ С€Р°Рі\n";
+            cout << "0 - РЈР±РµР¶Р°С‚СЊ\n";
             cin >> input;
         }
         else
         {
             if (my_Hp > 0)
             {
-                cout << "ТЫ победил\n";
+                cout << "РўР« РїРѕР±РµРґРёР»\n";
 
             }
             else
             {
-                cout << "ПРОИГРАл\n";
+                cout << "РџР РћРР“Р РђР»\n";
             }
             input = 0;
         }
     }
+}
+
+void Waiting(int time, char type, int sec)
+{
+    SetConsoleTextAttribute(h, CL_BLACK_BLU);
+    system("cls");
+    int curT = 0;
+    int maxT = time;
+    while (curT < maxT)
+    {
+        if (type == 'l')
+        {
+            cout << "|";
+            for (int i = 0; i < curT; i++)
+            {
+                cout << "#";
+            }
+            for (int i = curT; i < maxT; i++)
+            {
+                cout << " ";
+            }
+            cout << "|";
+        }
+        if (type == 't')
+        {
+            cout << "|";
+            for (int i = 0; i < curT; i++)
+            {
+                cout << " ";
+            }
+            cout << "@";
+            for (int i = curT + 1; i < maxT; i++)
+            {
+                cout << " ";
+            }
+            cout << "|";
+        }
+        Sleep(sec);
+        system("cls");
+        curT++;
+    }
+    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
 
 
@@ -426,36 +441,56 @@ void Fiting(Location LOC, Player& P)
 void ShowMenu()
 {
     SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t================ GAME 0.0.10 MENU ===================\n";
-    cout << "\t1 - Новая игра\n";
-    cout << "\t2 - Загрузить игру\n";
-    cout << "\t3 - Настройки\n";
+    cout << "\t================ GAME 0.0.10 MENU ===================\n\n";
+    cout << "\t1 - РќРѕРІР°СЏ РёРіСЂР°\n\n";
+    cout << "\t2 - Р—Р°РіСЂСѓР·РёС‚СЊ РёРіСЂСѓ\n\n";
+    cout << "\t3 - РќР°СЃС‚СЂРѕР№РєРё\n\n";
     SetConsoleTextAttribute(h, CL_YELLOW_BLACK);
-    cout << "\t4 - Выход\n";
+    cout << "\t4 - Р’С‹С…РѕРґ\n\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
 
+void ShowMenu(bool isnew)
+{
+    system("cls");
+    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
+    cout << "\t1 - РџСЂРѕРґРѕР»Р¶РёС‚СЊ\n\n";
+    cout << "\t2 - РќР°СЃС‚СЂРѕР№РєРё\n\n";
+    cout << "\t0 - Р’С‹Р№С‚Рё РёР· РёРіСЂС‹\n\n";
+    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
+}
+
+void ShowSettings(Settings MYSET)
+{
+    float DialogSpeed;
+    system("cls");
+    cout << "РЎРєРѕСЂРѕСЃС‚СЊ РґРёР°Р»РѕРіРѕРІ: " << MYSET.get_DialogSpeed() << endl;
+    cout << " РѕС‚ 0 РґРѕ 10 СЃРµРєСѓРЅРґ\n Р’РІРµРґРёС‚Рµ \t";
+    cin >> DialogSpeed;
+    MYSET.set_DialogSpeed(DialogSpeed);
+    cout << "РЎРєРѕСЂРѕСЃС‚СЊ РґРёР°Р»РѕРіРѕРІ: " << MYSET.get_DialogSpeed() << endl;
+}
 
 void ShowActions(string location)
 {
     SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t Локация: " << location << endl;
+    cout << "\t Р›РѕРєР°С†РёСЏ: " << location << endl;
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
     cout << "\n";
 
     SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-    cout << "1 - Показать мою стату\n";
+    cout << " 1 - РџРѕРєР°Р·Р°С‚СЊ РјРѕСЋ СЃС‚Р°С‚Сѓ\n\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 
     SetConsoleTextAttribute(h, CL_BLACK_BLU);
-    cout << "2 - Переместится\n";
+    cout << " 2 - РџРµСЂРµРјРµСЃС‚РёС‚СЃСЏ\n\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 
     SetConsoleTextAttribute(h, CL_BLACK_PURP);
-    cout << "3 - Осмотреться\n";
+    cout << " 3 - РћСЃРјРѕС‚СЂРµС‚СЊСЃСЏ\n\n";
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 
-    cout << "0 - Выход\n";
+    cout << " 0 - Р’С‹С…РѕРґ\n\n";
 }
 
 
@@ -473,15 +508,15 @@ void GoStory(Stranger S, string my_name, Player &P, Settings mySet)
     in >> color;
     in.get();
     getline(in, s);
-    while (s != "КОНЕЦ")
+    while (s != "РљРћРќР•Р¦")
         {
-            if (s == "Я")
+            if (s == "РЇ")
             {
                 getline(in, s);
                 printDialog(my_name, s, my_name, CL_BLACK_GREEN);
                 Sleep(mySet.get_DialogSpeed()*1000);
             }
-            if (s == "ВЫБОР")
+            if (s == "Р’Р«Р‘РћР ")
             {
                 in >> N;
                 in.get();
@@ -513,7 +548,7 @@ void GoStory(Stranger S, string my_name, Player &P, Settings mySet)
                 printDialog(s2, temp, my_name, color);
                 Sleep(mySet.get_DialogSpeed()*1000);
             }
-            if (s == "КАДР")
+            if (s == "РљРђР”Р ")
             {
                 system("cls");
                 for (int i = 0; i < 10; i++)
@@ -523,7 +558,7 @@ void GoStory(Stranger S, string my_name, Player &P, Settings mySet)
                 }
                 system("pause");
             }
-            if (s == "КТО")
+            if (s == "РљРўРћ")
             {
                 getline(in, s2);
                 getline(in, s);
@@ -533,7 +568,7 @@ void GoStory(Stranger S, string my_name, Player &P, Settings mySet)
             getline(in, s);
     }
     system("pause");
-    if ((P.get_lvl() == 1) && (S.get_stranger_name() == "Бандит Инококентий"))
+    if ((P.get_lvl() == 1) && (S.get_stranger_name() == "Р‘Р°РЅРґРёС‚ РРЅРѕРєРѕРєРµРЅС‚РёР№"))
     { 
         P.lvlup();
         if (wasinput == 1)

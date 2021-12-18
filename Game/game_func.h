@@ -1,4 +1,4 @@
-#ifndef GAME_FUNC
+п»ї#ifndef GAME_FUNC
 #define GAME_FUNC
 #include "Player.h"
 #include "Weapon.h"
@@ -10,20 +10,24 @@
 using namespace std;
 
 void ShowMenu();
+void ShowMenu(bool isNew);
+void ShowSettings(Settings MYSET);
+
 void ShowActions(string location);
 
 void GoStory(Stranger S, string my_name, Player &P, Settings Set);
+
 void printDialog(string who, string what, string my_name, int color);
 
-// Функции для работы игры
-int RundNum(int min, int max); //Число от мин до макс
-string rName(int length);  // Случайное название
+int RundNum(int min, int max); //Р§РёСЃР»Рѕ РѕС‚ РјРёРЅ РґРѕ РјР°РєСЃ
 
-string RundomWeaponType(); // Тип оружие рандом (Лук копье и тд)
+string rName(int length);  // РЎР»СѓС‡Р°Р№РЅРѕРµ РЅР°Р·РІР°РЅРёРµ
+
+string RundomWeaponType(); // РўРёРї РѕСЂСѓР¶РёРµ СЂР°РЅРґРѕРј (Р›СѓРє РєРѕРїСЊРµ Рё С‚Рґ)
 
 void DescribeWeapon(Weapon wep);
 
-int SetRundomColorOfRare(); // Прототип функции
+int SetRundomColorOfRare(); 
 
 void printMap(string location, Player &P);
 
@@ -31,6 +35,8 @@ void lookUp(Location LOC, Player &P);
 
 void Looting(Location LOC, Player& P);
 
-void  Fiting(Location LOC, Player& P);
+void Fiting(Location LOC, Player& P);
+
+void Waiting(int time, char type, int sec); // type = l    |вѓћвѓћвѓћ    | type = t {     вє   }
 #endif // !GAME_FUNC
 
