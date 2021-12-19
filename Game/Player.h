@@ -8,11 +8,14 @@ class Player
 {
 private:
 	string name;
-	int coin;
+	string location;	
 	Weapon my_weapon;
+	int coin;
 	int lvl;
-	string location;
 	int Inventory[10][2];
+	float MaxHp = 50.0;
+	float Hp = 50.0;
+	float armor = 0.0;
 
 public:
 	Player(int l, int c, Weapon wep, string loc);
@@ -33,7 +36,6 @@ public:
 
 	// -------------------------------------
 	
-	Weapon pickUpWeapon();
 	Weapon get_weapon();
 
 	string get_location();
@@ -43,6 +45,16 @@ public:
 	bool loc_cave_isopen;
 	bool loc_desert_isopen;
 	bool loc_forest_isopen;
+
+	//---------------hp-----------
+	float get_maxhp();
+	float get_hp();
+	float get_armor();
+
+	void set_maxhp(float mhp);
+	void set_hp(float hp);
+	void set_armor(float ar);
+	//--------------------------
 };
 #endif // !PLAYER
 

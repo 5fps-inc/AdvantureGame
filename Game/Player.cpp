@@ -71,4 +71,34 @@ void Player::go_location(string s)
 	location = s;
 }
 
+float Player::get_maxhp()
+{
+	return MaxHp;
+}
+
+float Player::get_hp()
+{
+	return Hp;
+}
+
+float Player::get_armor()
+{
+	return armor;
+}
+
+void Player::set_maxhp(float mhp)
+{
+	MaxHp = mhp;
+}
+
+void Player::set_hp(float hp)
+{
+	Hp = hp;
+}
+
+void Player::set_armor(float ar)
+{
+	armor = ar;
+}
+
 

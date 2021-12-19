@@ -76,6 +76,7 @@ int main()
 
     if (!isNewGame) // Загружаем
     {
+        LoadedLvl = 1;
         LoadedCoins = 100;
         LoadedNameWeapon = "";
         LoadedWeaponDamage = 10.0;
@@ -113,6 +114,9 @@ int main()
         {
             P.Inventory_set_Id_count(i, 0, 0);
         }
+        P.set_armor(0.0);
+        P.set_hp(50.0);
+        P.set_maxhp(50.0);
     }
 
 
@@ -135,7 +139,7 @@ int main()
             {
                 system("cls");
                 cout << "  0   \t" << P.get_name() << endl;
-                cout << " /|?   \n";
+                cout << " /|?   \t" << "HP:" << P.get_hp() << endl;
                 cout << "  ^    \n";
                 cout << " / |  \n";
                 DescribeWeapon(P.get_weapon());

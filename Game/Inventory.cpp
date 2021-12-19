@@ -38,7 +38,7 @@ string NameOfId(int i)
 
     if (i == 0) return "";
     if (i == 1) return "палка";
-    if (i == 2) return "листик";
+    if (i == 2) return "падарожник";
     if (i == 3) return "лапа зайца";
     if (i == 4) return "Шерсть мишки";
     if (i == 5) return "Коготь мишки";

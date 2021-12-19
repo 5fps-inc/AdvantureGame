@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game_func.cpp" />
     <ClCompile Include="Inventory.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="game_func.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Location.h" />
@@ -159,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\tilemap.txt" />
+    <Text Include="Enemy_Bear.txt" />
+    <Text Include="Enemy_Rabbit.txt" />
     <Text Include="firs.txt" />
     <Text Include="ino.txt" />
     <Text Include="StoryLvl2.txt" />
