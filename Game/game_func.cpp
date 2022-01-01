@@ -13,24 +13,13 @@
 #include "Settings.h"
 #include "Inventory.h"
 #include "Enemy.h"
+#include "GameUI.h"
+#include "Colors.h"
 
 using namespace std;
 using std::cout;
 
-const int CL_BLACK_WHITE = 15;
-const int CL_BLACK_RED = 12;
-const int CL_YELLOW_BLACK = 96;
-const int CL_GREEN_WHITE = 39;
-
-const int CL_BLACK_BLU = 1;
-const int CL_BLACK_GREY = 8;
-const int CL_BLACK_GREEN = 2;
-const int CL_BLACK_PURP = 5;
-const int CL_BLACK_YELLOW = 6;
-
-HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-
-int RundNum(int min, int max)
+int RandNum(int min, int max)
 {
 	int num = min + rand() % (max - min + 1);
 	return num;
@@ -64,9 +53,9 @@ string rName(int length)
     return name;
 }
 
-string RundomWeaponType()
+string RandomWeaponType()
 {
-    int a = RundNum(1,5);
+    int a = RandNum(1,5);
     switch (a)
     {
     case 1:
@@ -205,10 +194,10 @@ void Looting(Location LOC, Player& P)
     while (in != 0)
     {
         Waiting(10, 'l', 100);
-        if (RundNum(1, 99) > difficult)
+        if (RandNum(1, 99) > difficult)
         {
             cout << "Ты нашел: ";
-            int rund_id = RundNum(1,99);
+            int rund_id = RandNum(1,99);
             cout << "Проверка . Рандомное число: " << rund_id << endl;
             int TEMP_rund = 0;
             int i = 0;
@@ -250,23 +239,22 @@ void Fiting(Location LOC, Player& P)
     int my_cur_cd = P.get_weapon().get_cd();
     int en_cur_cd;
     Enemy* en = new Enemy(10.0, 1.0, 1, "Заяц", "Enemy_Rabbit.txt");
-    if (LOC.get_location_name() == "полянка")
-    {
-        if (RundNum(1, 2) < 2)
+    //if (LOC.get_location_name() == "полянка")
+    //{
+        if (RandNum(1, 2) < 2)
         {
             //Типо 1 или 2 то ЭТО кролик
-            Enemy* en = new Enemy(10.0,1.0,1,"Заяц", "Enemy_Rabbit.txt");
+            en = new Enemy(10.0,1.0,1,"Заяц", "Enemy_Rabbit.txt");
         }
         else
         {
             // Типо медведь
-            delete en;
-            Enemy* en = new Enemy(50.0, 20.0, 3, "Медведь", "Enemy_Bear.txt");
+            en = new Enemy(50.0, 20.0, 3, "Медведь", "Enemy_Bear.txt");
         }
-    }
+    //}
     
     en_cur_cd = (*en).get_cd();
-    ShowBattle(P, (*en), my_cur_cd, en_cur_cd);
+    ShowBattle(P, *en, my_cur_cd, en_cur_cd);
 
     cout << "ENTER - Драться\n";
     cout << "0 - Убежать\n";
@@ -283,7 +271,7 @@ void Fiting(Location LOC, Player& P)
 
             if (my_cur_cd == 0)
             {
-                if (RundNum(1,4) < 2)
+                if (RandNum(1,4) < 2)
                 {
                     (*en).add_hp(-(P.get_weapon().get_crit() * P.get_weapon().get_damage()));
                     my_cur_cd = P.get_weapon().get_cd();
@@ -404,83 +392,6 @@ void Waiting(int time, char type, int sec)
     SetConsoleTextAttribute(h, CL_BLACK_WHITE);
 }
 
-
-
-void ShowMenu()
-{
-    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t================ GAME 0.0.11 Меню ===================\n\n";
-    cout << "\t1 - Новая игра\n\n";
-    cout << "\t2 - Загрузить игру\n\n";
-    cout << "\t3 - Настройки\n\n";
-    SetConsoleTextAttribute(h, CL_YELLOW_BLACK);
-    cout << "\t4 - Выход\n\n";
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-}
-
-void ShowMenu(bool isnew)
-{
-    system("cls");
-    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t1 - Продолжить\n\n";
-    cout << "\t2 - Настройки\n\n";
-    cout << "\t0 - Выйти из игры\n\n";
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-}
-
-void ShowSettings(Settings MYSET)
-{
-    float DialogSpeed;
-    system("cls");
-    cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
-    cout << " от 0 до 10 секунд\n Введите \t";
-    cin >> DialogSpeed;
-    MYSET.set_DialogSpeed(DialogSpeed);
-    cout << "Скорость диалогов: " << MYSET.get_DialogSpeed() << endl;
-}
-
-void ShowActions(string location)
-{
-    SetConsoleTextAttribute(h, CL_BLACK_YELLOW);
-    cout << "\t Локация: " << location << endl;
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-    cout << "\n";
-
-    SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-    cout << " 1 - Инвентарь\n\n";
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-
-    SetConsoleTextAttribute(h, CL_BLACK_BLU);
-    cout << " 2 - Переместится\n\n";
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-
-    SetConsoleTextAttribute(h, CL_BLACK_PURP);
-    cout << " 3 - Осмотреться\n\n";
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-
-    cout << " 0 - Выход\n\n";
-}
-
-void ShowBattle(Player P, Enemy EN, int p_curcd, int en_curcd)
-{
-    system("cls");
-    cout << setw(10) << P.get_name() << setw(10) << EN.get_name() << endl;
-    cout << "  0      \t" << EN.Get_s1() << endl;
-    cout << " /|?     \t" << EN.Get_s2()<< endl;
-    cout << "  ^      \t" << EN.Get_s3() << endl;
-    cout << " / |     \t" << EN.Get_s4() << endl;
-    SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-    cout << "HP:" << setw(7) << P.get_hp();
-    SetConsoleTextAttribute(h, CL_BLACK_RED);
-    cout << setw(10) << EN.get_hp() << endl;
-    SetConsoleTextAttribute(h, CL_BLACK_GREEN);
-    cout << "CD:" << setw(7) << p_curcd;
-    SetConsoleTextAttribute(h, CL_BLACK_RED);
-    cout << setw(10) << en_curcd << endl;
-    SetConsoleTextAttribute(h, CL_BLACK_WHITE);
-}
-
-
 void GoStory(Stranger S, string my_name, Player &P, Settings mySet)
 {
     string s;
@@ -586,35 +497,5 @@ void printDialog(string who, string what, string my_name, int color)
         cout << who << ": ";
         SetConsoleTextAttribute(h, CL_BLACK_WHITE);
         cout << what << endl;
-    }
-}
-
-
-int SetRundomColorOfRare()
-{
-    int s = RundNum(1, 31);
-    if (s <= 16)
-    {
-        return CL_BLACK_GREY;
-    }
-    if ((s > 16) && (s <= 24))
-    {
-        return CL_BLACK_GREEN;
-    }
-    if ((s > 24) && (s <= 28))
-    {
-        return CL_BLACK_BLU;
-    }
-    if ((s > 28) && (s <= 30))
-    {
-        return CL_BLACK_PURP;
-    }
-    if ((s > 30) && (s <= 31))
-    {
-        return CL_BLACK_YELLOW;
-    }
-    else
-    {
-        return 15;
     }
 }

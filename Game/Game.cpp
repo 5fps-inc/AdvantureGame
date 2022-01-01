@@ -10,10 +10,9 @@
 #include "Settings.h"
 #include "Location.h"
 #include "Inventory.h"
+#include "GameUI.h"
 
 using namespace std;
-
-
 
 // ______________________________________________MAIN _______________________
 int main()
@@ -24,6 +23,8 @@ int main()
 
     SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
     SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
+    LPCWSTR title = L"AdventureGame";
+    SetConsoleTitle(title);
 
     int LoadedLvl;
     int LoadedCoins;
@@ -37,7 +38,7 @@ int main()
     int ButtonPressed;
     
 
-    bool isNewGame;
+    bool isNewGame = false;
 
     ShowMenu();
     
@@ -54,22 +55,25 @@ int main()
             //Новая игра
             system("cls");
             isNewGame = true;
-            ButtonPressed = 4;
-        }
-        if (ButtonPressed == 2)
+            break;
+        } else if (ButtonPressed == 2)
         {
             //Pfuhepbnm buhe
             system("cls");
             isNewGame = false;
-            ButtonPressed = 4;
-        }
-        if (ButtonPressed == 3)
+            break;
+        } else if (ButtonPressed == 3)
         {
             //Настройки
-            ShowSettings(MYSET);
+            MYSET.ShowSettings();
             system("cls");
             ShowMenu();
             cin >> ButtonPressed;
+        }
+        else {
+            cout << "Wrong input" << endl;
+            Sleep(1000);
+            system("cls");
         }
     }
     
@@ -166,7 +170,7 @@ int main()
             cin >> InputForAction;
             if (InputForAction == 2)
             {
-                ShowSettings(MYSET);
+                MYSET.ShowSettings();
             }
             break;
         default:
@@ -177,7 +181,7 @@ int main()
     }
     system("cls");
     cout << "Перед тем как выйти. Сохраним игру\n 1 - Да\n 2 - нет\n";
-    int in;
+    short in;
     cin >> in;
     if (in == 1)
     {
