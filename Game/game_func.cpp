@@ -239,8 +239,8 @@ void Fiting(Location LOC, Player& P)
     int my_cur_cd = P.get_weapon().get_cd();
     int en_cur_cd;
     Enemy* en = new Enemy(10.0, 1.0, 1, "Заяц", "Enemy_Rabbit.txt");
-    //if (LOC.get_location_name() == "полянка")
-    //{
+    if (LOC.get_location_name() == "полянка")
+    {
         if (RandNum(1, 2) < 2)
         {
             //Типо 1 или 2 то ЭТО кролик
@@ -251,7 +251,7 @@ void Fiting(Location LOC, Player& P)
             // Типо медведь
             en = new Enemy(50.0, 20.0, 3, "Медведь", "Enemy_Bear.txt");
         }
-    //}
+    }
     
     en_cur_cd = (*en).get_cd();
     ShowBattle(P, *en, my_cur_cd, en_cur_cd);
