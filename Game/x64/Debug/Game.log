@@ -1,6 +1,4 @@
-﻿  game_func.cpp
-D:\Development\AdventureGame\Game\game_func.cpp(288,28): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
-D:\Development\AdventureGame\Game\game_func.cpp(415,46): warning C4244: аргумент: преобразование "float" в "DWORD", возможна потеря данных
-D:\Development\AdventureGame\Game\game_func.cpp(447,46): warning C4244: аргумент: преобразование "float" в "DWORD", возможна потеря данных
-D:\Development\AdventureGame\Game\game_func.cpp(464,46): warning C4244: аргумент: преобразование "float" в "DWORD", возможна потеря данных
+﻿  Game.cpp
+D:\Development\AdventureGame\Game\Game.cpp(22,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Development\AdventureGame\Game\Game.cpp(100,31): warning C4305: =: усечение из "double" в "float"
   Game.vcxproj -> D:\Development\AdventureGame\x64\Debug\Game.exe

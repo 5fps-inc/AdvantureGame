@@ -36,9 +36,9 @@ int main()
     string LoadedLocation;
 
     int ButtonPressed;
-    
 
     bool isNewGame = false;
+    bool isStart = true;
 
     ShowMenu();
     
@@ -55,12 +55,14 @@ int main()
             //Новая игра
             system("cls");
             isNewGame = true;
+            isStart = true;
             break;
         } else if (ButtonPressed == 2)
         {
-            //Pfuhepbnm buhe
+            //Загрузить игру
             system("cls");
             isNewGame = false;
+            isStart = false;
             break;
         } else if (ButtonPressed == 3)
         {
@@ -128,7 +130,7 @@ int main()
     Stranger Bandit("Бандит Инококентий", 0, 0, "ino.txt");
     Location Field(0, 1, 2, 6, 0, 40, 70, 90, 100, 0, "полянка", "", "", "", "", "");
 
-    GoStory(Bandit, P.get_name(), P, MYSET); // игра начилась стартовый диалог
+    if (isStart) GoStory(Bandit, P.get_name(), P, MYSET); // игра начилась стартовый диалог
     system("cls");
 
     ShowActions(P.get_location());
